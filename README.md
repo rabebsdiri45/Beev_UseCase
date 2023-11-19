@@ -41,7 +41,7 @@ Removed entries from the Customer table where the `(Make, Model)` pair does not 
 ## SQL Queries
 
 ```sql
--- Total number of cars by model by country
+Total number of cars by model by country
 SELECT "Model", "Country", SUM("Sales_Volume") AS total_number
 FROM "Consumer"
 GROUP BY "Country", "Model";
