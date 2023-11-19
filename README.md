@@ -44,6 +44,7 @@ where (c1."Model",c1."Make")not in (select "Model","Make" from "Car");
 # Tasks 
 [Queries.sql file link](Queries.sql)
 ## SQL Queries
+# Question A
 Total number of cars by model by country
 ```sql
 
@@ -52,7 +53,7 @@ FROM "Consumer"
 GROUP BY "Country", "Model";
 ```
 Query result : [result link](results/Query1.csv) <br>
-
+# Question B
 For each model, the country where it was sold the most
 ```sql
 SELECT DISTINCT ON ("Model") "Model",
@@ -63,6 +64,7 @@ GROUP BY "Model", "Country"
 ORDER BY "Model", total_sales_volume DESC;
 ```
 Query result : [result link](results/Query2.csv) <br>
+# Question C
 Check if any model is sold in Germany but not in France
 ```sql
 (SELECT DISTINCT "Model"
@@ -74,6 +76,7 @@ EXCEPT
  WHERE "Country" = 'France');
 ```
 Query result : empty <br>
+# Question D
 How much the average car costs in every country by engine type since we have the Engine_Type and Price in Car table and Country in Consumer table
 I need join operation but since the combination of  "Model", "Country", "Make" leads to many rows
 I used the distinct
@@ -110,6 +113,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 ```
+# Question E
 I calculated the average of review score for cars from the "Consumer" table, based on their engine type using the previously defined function get_latest_car_before_year.
 ```sql
 (select 'Electric'as Engine_Type, avg("Review_Score")
