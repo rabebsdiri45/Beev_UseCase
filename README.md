@@ -122,7 +122,7 @@ union
     );
 ```
 Query result : [result link](results/Query5.csv) <br>
-dynamic version
+Dynamic version
 ```sql
 SELECT
     eng."Engine_Type",
@@ -153,7 +153,7 @@ union
 order by "Year";
 ```
 Query result : [result link](results/Query6.csv) <br>
-dynamic version 
+Dynamic version 
 ```sql
 SELECT
     cons."Year",
