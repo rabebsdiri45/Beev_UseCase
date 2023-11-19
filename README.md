@@ -50,7 +50,7 @@ SELECT "Model", "Country", SUM("Sales_Volume") AS total_number
 FROM "Consumer"
 GROUP BY "Country", "Model";
 ```
-Query result : [file link](results/Query1.csv) \n
+Query result : [file link](results/Query1.csv) <br>
 
 For each model, the country where it was sold the most
 ```sql
@@ -61,7 +61,7 @@ FROM "Consumer"
 GROUP BY "Model", "Country"
 ORDER BY "Model", total_sales_volume DESC;
 ```
-Query result : [file link](results/Query2.csv)
+Query result : [file link](results/Query2.csv) <br>
 Check if any model is sold in Germany but not in France
 ```sql
 (SELECT DISTINCT "Model"
@@ -72,7 +72,7 @@ EXCEPT
  FROM "Consumer"
  WHERE "Country" = 'France');
 ```
-Query result : empty
+Query result : empty <br>
 how much the average car costs in every country by engine type since we have the Engine_Type and Price in Car table and Country in Consumer table
 I need join operation but since the combination of  "Model", "Country", "Make" leads to many rows
 I used the distinct
@@ -84,14 +84,14 @@ ON c1."Model" = c2."Model" AND c1."Make" = c2."Make"
 GROUP BY "Country", "Engine_Type"
 ORDER BY "Country";
 ```
-Query result : [file link](results/Query4.csv)
+Query result : [file link](results/Query4.csv) <br>
 check the average ratings of electric cars vs thermal cars
 for each row in the Consumer table i needed it to match it with a row from the Car data to extract the "Engine_Type"
 but since not necessarily each year in the Consumer table   match a row in the Car table i opted for taking the closest previous year
 since it represents the latest release compared to the data point
 ![alt text](Func_diagram.png?row=true)
 this function will take the year , make and model and return a table of 1 row that represents the latest car release compared to the given date
-[Sql file link](Functions.sql)
+[Sql file link](Functions.sql) 
 ```sql
 CREATE OR REPLACE FUNCTION get_latest_car_before_year(_year INT, _make TEXT, _model TEXT)
 RETURNS TABLE("Car_pk" INT, "Make" TEXT, "Model" TEXT, "Year" INT, "Price" INT, "Engine_Type" engine_type_enum) AS $$
@@ -120,7 +120,7 @@ union
     where (select "Engine_Type" from get_latest_car_before_year("Year", "Make", "Model")) = 'Thermal'
     );
 ```
-Query result : [file link](results/Query5.csv)
+Query result : [file link](results/Query5.csv) <br>
 dynamic version
 SELECT
     eng."Engine_Type",
@@ -149,7 +149,7 @@ union
  group by "Year")
 order by "Year";
 ```
-Query result : [file link](results/Query6.csv)
+Query result : [file link](results/Query6.csv) <br>
 dynamic version 
 SELECT
     cons."Year",
