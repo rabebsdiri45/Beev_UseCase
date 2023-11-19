@@ -12,7 +12,7 @@
 
 - Duplicate entries: For the same `(make, model)` pair, there are multiple rows featuring different years, prices, and engine types, which could complicate analyses involving both datasets.
 
-# Database Model
+# Database Model [link](Create_database.sql)
 
 Implemented a straightforward approach by creating two tables corresponding to the datasets, each with an added `id` as a primary key.
 
