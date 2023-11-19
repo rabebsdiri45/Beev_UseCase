@@ -141,5 +141,7 @@ JOIN "Consumer" cons ON eng."Engine_Type" = (
 GROUP BY cons."Year", eng."Engine_Type"
 ORDER BY cons."Year";
 ```
-## I used matplotlib, psycopg2 and Pandas to create the graph 
+## I used matplotlib, psycopg2 and Pandas to create the graph
+
+## The output bar plot
 ![alt text](Car_Sales_by_Year_Graph.png?row=true)
