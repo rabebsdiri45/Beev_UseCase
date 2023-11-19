@@ -35,18 +35,21 @@ Utilized Pandas for data reading and psycopg2 for database connections.
 # Data Cleaning
 
 Removed entries from the Customer table where the `(Make, Model)` pair does not exist in the Car table. No imputation criteria were provided for issues within the Car table, leading to the assumption that a Make could release various Model versions over time.
-
+```sql
+DELETE from "Consumer" c1
+where (c1."Model",c1."Make")not in (select "Model","Make" from "Car");
+```
 # Tasks Explanations
 
 ## SQL Queries
-## Total number of cars by model by country
+# Total number of cars by model by country
 ```sql
 
 SELECT "Model", "Country", SUM("Sales_Volume") AS total_number
 FROM "Consumer"
 GROUP BY "Country", "Model";
 ```
-## For each model, the country where it was sold the most
+# For each model, the country where it was sold the most
 ```sql
 SELECT DISTINCT ON ("Model") "Model",
                              "Country",
@@ -55,7 +58,7 @@ FROM "Consumer"
 GROUP BY "Model", "Country"
 ORDER BY "Model", total_sales_volume DESC;
 ```
-## Check if any model is sold in Germany but not in France
+# Check if any model is sold in Germany but not in France
 ```sql
 (SELECT DISTINCT "Model"
  FROM "Consumer"
