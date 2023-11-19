@@ -45,6 +45,7 @@ Total number of cars by model by country
 SELECT "Model", "Country", SUM("Sales_Volume") AS total_number
 FROM "Consumer"
 GROUP BY "Country", "Model";
+```
 For each model, the country where it was sold the most
 ```sql
 SELECT DISTINCT ON ("Model") "Model",
@@ -53,7 +54,7 @@ SELECT DISTINCT ON ("Model") "Model",
 FROM "Consumer"
 GROUP BY "Model", "Country"
 ORDER BY "Model", total_sales_volume DESC;
-
+```
 Check if any model is sold in Germany but not in France
 ```sql
 (SELECT DISTINCT "Model"
@@ -63,7 +64,7 @@ EXCEPT
 (SELECT DISTINCT "Model"
  FROM "Consumer"
  WHERE "Country" = 'France');
-
+```
 Average car cost in every country by engine type
 ```sql
 SELECT c2."Country", "Engine_Type", AVG("Price")
@@ -72,7 +73,7 @@ JOIN (SELECT DISTINCT "Model", "Country", "Make" FROM "Consumer") c2
 ON c1."Model" = c2."Model" AND c1."Make" = c2."Make"
 GROUP BY "Country", "Engine_Type"
 ORDER BY "Country";
-
+```
 Average ratings of electric cars vs thermal cars
 Utilizes function get_latest_car_before_year to match Consumer table data with Car table data
 ```sql
@@ -91,7 +92,7 @@ BEGIN
     LIMIT 1;
 END;
 $$ LANGUAGE plpgsql;
-
+```
 Average review score for cars based on engine type
 ```sql
 SELECT eng."Engine_Type", AVG(cons."Review_Score") AS average_review_score
@@ -104,7 +105,7 @@ JOIN "Consumer" cons ON eng."Engine_Type" = (
     FROM get_latest_car_before_year(cons."Year", cons."Make", cons."Model")
 )
 GROUP BY eng."Engine_Type";
-
+```
 Bonus Task Queries
 Total sales volumes of electric and thermal engine cars for each year
 ```sql
@@ -119,3 +120,4 @@ JOIN "Consumer" cons ON eng."Engine_Type" = (
 )
 GROUP BY cons."Year", eng."Engine_Type"
 ORDER BY cons."Year";
+```
