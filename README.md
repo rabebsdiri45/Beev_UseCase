@@ -151,6 +151,7 @@ order by "Year";
 ```
 Query result : [result link](results/Query6.csv) <br>
 dynamic version 
+```sql
 SELECT
     cons."Year",
     eng."Engine_Type",
@@ -165,6 +166,7 @@ JOIN "Consumer" cons ON eng."Engine_Type" = (
 )
 GROUP BY cons."Year", eng."Engine_Type"
 ORDER BY cons."Year";
+```
 I used matplotlib, psycopg2 and Pandas to create the graph
 [Graph_from_db.py file link](Graph_from_db.py)
 ## The output bar plot
