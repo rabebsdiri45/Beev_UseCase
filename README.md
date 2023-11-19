@@ -10,7 +10,7 @@
 
 ### car_data.csv
 
-- There are multiple rows for the same `(make, model)` pair with different attributes such as years, prices, and engine types. This will pose a problem when attempting to join the two datasets for any analysis.
+- There are multiple rows for the same `(Make, Model)` pair with different attributes such as years, prices, and engine types. This will pose a problem when attempting to join the two datasets for any analysis.
 
 # Database Model
 
@@ -22,10 +22,10 @@ A simplistic approach was taken to model the database, creating two tables that 
 
 ## Column Types
 
-- `varchar(20)` for `make`, `model`, and `country` since they are short strings that usually do not exceed 20 characters.
-- `integer` for `year`, `sales_volume`, and `price`.
-- `float(1)` for `review_Score`.
-- `enum` for `engine_type`, composed of `Electric` and `Thermal`.
+- `varchar(20)` for `Make`, `Model`, and `Country` since they are short strings that usually do not exceed 20 characters.
+- `integer` for `Year`, `Sales_volume`, and `Price`.
+- `float(1)` for `Review_Score`.
+- `enum` for `Engine_type`, composed of `Electric` and `Thermal`.
 - Auto-incremented primary keys.
 
 # From CSV to Database
