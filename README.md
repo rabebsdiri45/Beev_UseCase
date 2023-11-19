@@ -13,7 +13,7 @@
 - Duplicate entries: For the same `(make, model)` pair, there are multiple rows featuring different years, prices, and engine types, which could complicate analyses involving both datasets.
 
 # Database Model 
-[sql file link](Create_database.sql)
+[Create_database.sql file link](Create_database.sql)
 
 Implemented a straightforward approach by creating two tables corresponding to the datasets, each with an added `id` as a primary key.
 
@@ -30,18 +30,18 @@ Implemented a straightforward approach by creating two tables corresponding to t
 - Both primary keys are set to auto-increment.
 
 # From CSV to Database
-[Python file link](from_csv_to_db.py)
+[from_csv_to_db.py file link](from_csv_to_db.py)
 Utilized Pandas for data reading and psycopg2 for database connections.
 
 # Data Cleaning
-[sql file link](data_cleaning.sql)
+[data_cleaning.sql file link](data_cleaning.sql)
 Removed entries from the Customer table where the `(Make, Model)` pair does not exist in the Car table. No imputation criteria were provided for issues within the Car table, leading to the assumption that a Make could release various Model versions over time.
 ```sql
 DELETE from "Consumer" c1
 where (c1."Model",c1."Make")not in (select "Model","Make" from "Car");
 ```
 # Tasks 
-[sql file link](Queries.sql)
+[Queries.sql file link](Queries.sql)
 ## SQL Queries
 Total number of cars by model by country
 ```sql
@@ -50,7 +50,7 @@ SELECT "Model", "Country", SUM("Sales_Volume") AS total_number
 FROM "Consumer"
 GROUP BY "Country", "Model";
 ```
-Query result : [file link](results/Query1.csv) <br>
+Query result : [result link](results/Query1.csv) <br>
 
 For each model, the country where it was sold the most
 ```sql
@@ -61,7 +61,7 @@ FROM "Consumer"
 GROUP BY "Model", "Country"
 ORDER BY "Model", total_sales_volume DESC;
 ```
-Query result : [file link](results/Query2.csv) <br>
+Query result : [result link](results/Query2.csv) <br>
 Check if any model is sold in Germany but not in France
 ```sql
 (SELECT DISTINCT "Model"
@@ -84,14 +84,14 @@ ON c1."Model" = c2."Model" AND c1."Make" = c2."Make"
 GROUP BY "Country", "Engine_Type"
 ORDER BY "Country";
 ```
-Query result : [file link](results/Query4.csv) <br>
+Query result : [result link](results/Query4.csv) <br>
 check the average ratings of electric cars vs thermal cars
 for each row in the Consumer table i needed it to match it with a row from the Car data to extract the "Engine_Type"
 but since not necessarily each year in the Consumer table   match a row in the Car table i opted for taking the closest previous year
 since it represents the latest release compared to the data point
 ![alt text](Func_diagram.png?row=true)
 this function will take the year , make and model and return a table of 1 row that represents the latest car release compared to the given date
-[Sql file link](Functions.sql) 
+[Functions.sql file link](Functions.sql) 
 ```sql
 CREATE OR REPLACE FUNCTION get_latest_car_before_year(_year INT, _make TEXT, _model TEXT)
 RETURNS TABLE("Car_pk" INT, "Make" TEXT, "Model" TEXT, "Year" INT, "Price" INT, "Engine_Type" engine_type_enum) AS $$
@@ -120,7 +120,7 @@ union
     where (select "Engine_Type" from get_latest_car_before_year("Year", "Make", "Model")) = 'Thermal'
     );
 ```
-Query result : [file link](results/Query5.csv) <br>
+Query result : [result link](results/Query5.csv) <br>
 dynamic version
 SELECT
     eng."Engine_Type",
@@ -149,7 +149,7 @@ union
  group by "Year")
 order by "Year";
 ```
-Query result : [file link](results/Query6.csv) <br>
+Query result : [result link](results/Query6.csv) <br>
 dynamic version 
 SELECT
     cons."Year",
@@ -166,6 +166,6 @@ JOIN "Consumer" cons ON eng."Engine_Type" = (
 GROUP BY cons."Year", eng."Engine_Type"
 ORDER BY cons."Year";
 I used matplotlib, psycopg2 and Pandas to create the graph
-[Python file link](Graph_from_db.py)
+[Graph_from_db.py file link](Graph_from_db.py)
 ## The output bar plot
 ![alt text](Car_Sales_by_Year_Graph.png?row=true)
