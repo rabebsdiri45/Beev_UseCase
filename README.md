@@ -42,7 +42,7 @@ where (c1."Model",c1."Make")not in (select "Model","Make" from "Car");
 # Tasks Explanations
 
 ## SQL Queries
-# Total number of cars by model by country
+### Total number of cars by model by country
 ```sql
 
 SELECT "Model", "Country", SUM("Sales_Volume") AS total_number
