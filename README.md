@@ -142,4 +142,4 @@ GROUP BY cons."Year", eng."Engine_Type"
 ORDER BY cons."Year";
 ```
 ## I used matplotlib, psycopg2 and Pandas to create the graph 
-!{alt text}(https://github.com/rabebsdiri45/Beev_UseCase/blob/36b7e39d1a68b64ba33871028edfd6f1d9076691/Car_Sales_by_Year_Graph.png?row=true)
+!{alt text}(Car_Sales_by_Year_Graph.png?row=true)
