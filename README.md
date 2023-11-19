@@ -35,7 +35,8 @@ Utilized Pandas for data reading and psycopg2 for database connections.
 
 # Data Cleaning
 [data_cleaning.sql file link](data_cleaning.sql)
-Removed entries from the Customer table where the `(Make, Model)` pair does not exist in the Car table. No imputation criteria were provided for issues within the Car table, leading to the assumption that a Make could release various Model versions over time.
+I deleted the rows from the Customer table where the pair (Make, Model) does not exist in the Car table.
+Although I can see problems in the Car table that I mentioned above , there is no criteria for the imputation. So I assumed that it could be that a company (Make) can release different variation of the same Model (Thermal/Electric) over the years or even the same year.
 ```sql
 DELETE from "Consumer" c1
 where (c1."Model",c1."Make")not in (select "Model","Make" from "Car");
@@ -73,7 +74,7 @@ EXCEPT
  WHERE "Country" = 'France');
 ```
 Query result : empty <br>
-how much the average car costs in every country by engine type since we have the Engine_Type and Price in Car table and Country in Consumer table
+How much the average car costs in every country by engine type since we have the Engine_Type and Price in Car table and Country in Consumer table
 I need join operation but since the combination of  "Model", "Country", "Make" leads to many rows
 I used the distinct
 ```sql
@@ -85,12 +86,12 @@ GROUP BY "Country", "Engine_Type"
 ORDER BY "Country";
 ```
 Query result : [result link](results/Query4.csv) <br>
-check the average ratings of electric cars vs thermal cars
+Check the average ratings of electric cars vs thermal cars
 for each row in the Consumer table i needed it to match it with a row from the Car data to extract the "Engine_Type"
 but since not necessarily each year in the Consumer table   match a row in the Car table i opted for taking the closest previous year
 since it represents the latest release compared to the data point
 ![alt text](Func_diagram.png?row=true)
-this function will take the year , make and model and return a table of 1 row that represents the latest car release compared to the given date
+This function will take the year , make and model and return a table of 1 row that represents the latest car release compared to the given date
 [Functions.sql file link](Functions.sql) 
 ```sql
 CREATE OR REPLACE FUNCTION get_latest_car_before_year(_year INT, _make TEXT, _model TEXT)
