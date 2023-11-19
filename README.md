@@ -80,7 +80,7 @@ ORDER BY "Country";
 ## for each row in the Consumer table i needed it to match it with a row from the Car data to extract the "Engine_Type"
 ## but since not necessarily each year in the Consumer table   match a row in the Car table i opted for taking the closest previous year
 ## since it represents the latest release compared to the data point
-##image
+![alt text](Func_diagram.png?row=true)
 ## this function will take the year , make and model and return a table of 1 row that represents the latest car release compared to the given date
 ```sql
 CREATE OR REPLACE FUNCTION get_latest_car_before_year(_year INT, _make TEXT, _model TEXT)
