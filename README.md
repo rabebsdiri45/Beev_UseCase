@@ -50,7 +50,7 @@ SELECT "Model", "Country", SUM("Sales_Volume") AS total_number
 FROM "Consumer"
 GROUP BY "Country", "Model";
 ```
-Query result : [file link](results/Query1.csv)
+Query result : [file link](results/Query1.csv) \n
 
 For each model, the country where it was sold the most
 ```sql
