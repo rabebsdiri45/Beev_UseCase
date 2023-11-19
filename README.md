@@ -122,6 +122,7 @@ union
 ```
 Query result : [result link](results/Query5.csv) <br>
 dynamic version
+```sql
 SELECT
     eng."Engine_Type",
     AVG(cons."Review_Score") as average_review_score
@@ -134,6 +135,7 @@ JOIN "Consumer" cons ON eng."Engine_Type" = (
     FROM get_latest_car_before_year(cons."Year", cons."Make", cons."Model")
 )
 GROUP BY eng."Engine_Type";
+```
 ## Bonus Task Queries
 I calculated the total sales volumes of electric and thermal engine cars for each year,based on records in the "Consumer" table.Then i grouped the sales by year and engine type
 
