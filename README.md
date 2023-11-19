@@ -42,14 +42,14 @@ where (c1."Model",c1."Make")not in (select "Model","Make" from "Car");
 # Tasks Explanations
 
 ## SQL Queries
-### Total number of cars by model by country
+Total number of cars by model by country
 ```sql
 
 SELECT "Model", "Country", SUM("Sales_Volume") AS total_number
 FROM "Consumer"
 GROUP BY "Country", "Model";
 ```
-# For each model, the country where it was sold the most
+For each model, the country where it was sold the most
 ```sql
 SELECT DISTINCT ON ("Model") "Model",
                              "Country",
@@ -58,7 +58,7 @@ FROM "Consumer"
 GROUP BY "Model", "Country"
 ORDER BY "Model", total_sales_volume DESC;
 ```
-# Check if any model is sold in Germany but not in France
+Check if any model is sold in Germany but not in France
 ```sql
 (SELECT DISTINCT "Model"
  FROM "Consumer"
@@ -68,9 +68,9 @@ EXCEPT
  FROM "Consumer"
  WHERE "Country" = 'France');
 ```
-## how much the average car costs in every country by engine type since we have the Engine_Type and Price in Car table and Country in Consumer table
-## i need join operation but since the combination of  "Model", "Country", "Make" leads to many rows
-## i used the distinct
+how much the average car costs in every country by engine type since we have the Engine_Type and Price in Car table and Country in Consumer table
+I need join operation but since the combination of  "Model", "Country", "Make" leads to many rows
+I used the distinct
 ```sql
 SELECT c2."Country", "Engine_Type", AVG("Price")
 FROM "Car" c1
@@ -79,12 +79,12 @@ ON c1."Model" = c2."Model" AND c1."Make" = c2."Make"
 GROUP BY "Country", "Engine_Type"
 ORDER BY "Country";
 ```
-## check the average ratings of electric cars vs thermal cars
-## for each row in the Consumer table i needed it to match it with a row from the Car data to extract the "Engine_Type"
-## but since not necessarily each year in the Consumer table   match a row in the Car table i opted for taking the closest previous year
-## since it represents the latest release compared to the data point
+check the average ratings of electric cars vs thermal cars
+for each row in the Consumer table i needed it to match it with a row from the Car data to extract the "Engine_Type"
+but since not necessarily each year in the Consumer table   match a row in the Car table i opted for taking the closest previous year
+since it represents the latest release compared to the data point
 ![alt text](Func_diagram.png?row=true)
-## this function will take the year , make and model and return a table of 1 row that represents the latest car release compared to the given date
+this function will take the year , make and model and return a table of 1 row that represents the latest car release compared to the given date
 ```sql
 CREATE OR REPLACE FUNCTION get_latest_car_before_year(_year INT, _make TEXT, _model TEXT)
 RETURNS TABLE("Car_pk" INT, "Make" TEXT, "Model" TEXT, "Year" INT, "Price" INT, "Engine_Type" engine_type_enum) AS $$
@@ -102,7 +102,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 ```
-## i calculated the average of review score for cars from the "Consumer" table, based on their engine type using the previously defined function get_latest_car_before_year.
+I calculated the average of review score for cars from the "Consumer" table, based on their engine type using the previously defined function get_latest_car_before_year.
 ```sql
 SELECT eng."Engine_Type", AVG(cons."Review_Score") AS average_review_score
 FROM (
@@ -115,7 +115,7 @@ JOIN "Consumer" cons ON eng."Engine_Type" = (
 )
 GROUP BY eng."Engine_Type";
 ```
-## dynamic version
+dynamic version
 SELECT
     eng."Engine_Type",
     AVG(cons."Review_Score") as average_review_score
@@ -129,7 +129,7 @@ JOIN "Consumer" cons ON eng."Engine_Type" = (
 )
 GROUP BY eng."Engine_Type";
 ## Bonus Task Queries
-## i calculated the total sales volumes of electric and thermal engine cars for each year,based on records in the "Consumer" table.Then i grouped the sales by year and engine type
+I calculated the total sales volumes of electric and thermal engine cars for each year,based on records in the "Consumer" table.Then i grouped the sales by year and engine type
 
 ```sql
 SELECT cons."Year", eng."Engine_Type", SUM(cons."Sales_Volume") AS total_sales_volume
@@ -144,7 +144,7 @@ JOIN "Consumer" cons ON eng."Engine_Type" = (
 GROUP BY cons."Year", eng."Engine_Type"
 ORDER BY cons."Year";
 ```
-## I used matplotlib, psycopg2 and Pandas to create the graph
+I used matplotlib, psycopg2 and Pandas to create the graph
 
 ## The output bar plot
 ![alt text](Car_Sales_by_Year_Graph.png?row=true)
