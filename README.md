@@ -40,7 +40,7 @@ Removed entries from the Customer table where the `(Make, Model)` pair does not 
 DELETE from "Consumer" c1
 where (c1."Model",c1."Make")not in (select "Model","Make" from "Car");
 ```
-# Tasks Explanations
+# Tasks 
 [sql file link](Queries.sql)
 ## SQL Queries
 Total number of cars by model by country
@@ -106,16 +106,14 @@ $$ LANGUAGE plpgsql;
 ```
 I calculated the average of review score for cars from the "Consumer" table, based on their engine type using the previously defined function get_latest_car_before_year.
 ```sql
-SELECT eng."Engine_Type", AVG(cons."Review_Score") AS average_review_score
-FROM (
-    SELECT DISTINCT "Engine_Type"
-    FROM "Car"
-) eng
-JOIN "Consumer" cons ON eng."Engine_Type" = (
-    SELECT "Engine_Type"
-    FROM get_latest_car_before_year(cons."Year", cons."Make", cons."Model")
-)
-GROUP BY eng."Engine_Type";
+(select 'Electric'as Engine_Type, avg("Review_Score")
+ from "Consumer"
+ where (select "Engine_Type" from get_latest_car_before_year("Year", "Make", "Model")) = 'Electric')
+union
+(select 'Thermal'as Engine_Type, avg("Review_Score")
+    from "Consumer"
+    where (select "Engine_Type" from get_latest_car_before_year("Year", "Make", "Model")) = 'Thermal'
+    );
 ```
 dynamic version
 SELECT
@@ -134,7 +132,22 @@ GROUP BY eng."Engine_Type";
 I calculated the total sales volumes of electric and thermal engine cars for each year,based on records in the "Consumer" table.Then i grouped the sales by year and engine type
 
 ```sql
-SELECT cons."Year", eng."Engine_Type", SUM(cons."Sales_Volume") AS total_sales_volume
+(select "Year", 'Electric'as Engine_Type, sum("Sales_Volume")
+ from "Consumer"
+ where (select "Engine_Type" from get_latest_car_before_year("Year", "Make", "Model")) = 'Electric'
+ group by "Year")
+union
+(select "Year", 'Thermal'as Engine_Type, sum("Sales_Volume")
+ from "Consumer"
+ where (select "Engine_Type" from get_latest_car_before_year("Year", "Make", "Model")) = 'Thermal'
+ group by "Year")
+order by "Year";
+```
+more dynamic version 
+SELECT
+    cons."Year",
+    eng."Engine_Type",
+    SUM(cons."Sales_Volume") as total_sales_volume
 FROM (
     SELECT DISTINCT "Engine_Type"
     FROM "Car"
@@ -145,7 +158,6 @@ JOIN "Consumer" cons ON eng."Engine_Type" = (
 )
 GROUP BY cons."Year", eng."Engine_Type"
 ORDER BY cons."Year";
-```
 I used matplotlib, psycopg2 and Pandas to create the graph
 [Python file link](Graph_from_db.py)
 ## The output bar plot
