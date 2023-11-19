@@ -18,7 +18,7 @@ Implemented a straightforward approach by creating two tables corresponding to t
 
 ## Schema Overview
 
-(The database schema would be described or diagrammed here.)
+![alt text](schema.png?row=true)
 
 ## Column Types
 
