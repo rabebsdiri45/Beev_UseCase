@@ -15,7 +15,7 @@ ORDER BY "Model",
 -- check if any model is sold in the USA but not in France
 (SELECT DISTINCT "Model"
  FROM "Consumer"
- WHERE "Country" = 'Germany')
+ WHERE "Country" = 'USA')
 EXCEPT
 (SELECT DISTINCT "Model"
  FROM "Consumer"
