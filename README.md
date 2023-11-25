@@ -65,11 +65,11 @@ ORDER BY "Model", total_sales_volume DESC;
 ```
 Query result : [result link](results/Query2.csv) <br>
 # Question C
-Check if any model is sold in Germany but not in France
+Check if any model is sold in USA but not in France
 ```sql
 (SELECT DISTINCT "Model"
  FROM "Consumer"
- WHERE "Country" = 'Germany')
+ WHERE "Country" = 'USA')
 EXCEPT
 (SELECT DISTINCT "Model"
  FROM "Consumer"
